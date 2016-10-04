@@ -6,6 +6,7 @@
     "node": true
   },
    "globals": {
-    "require": true
+     "require": true,
+     "module": true
   }
 }

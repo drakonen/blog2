@@ -32,6 +32,13 @@ connect()
     .on('disconnected', connect)
     .once('open', listen);
 
+
+function connect () {
+    var options = { server: { socketOptions: { keepAlive: 1 } } };
+    return mongoose.connect(settings.mongodb.url, options).connection;
+}
+
+
 function listen () {
     /**
      * Listen on provided port, on all network interfaces.
@@ -40,11 +47,6 @@ function listen () {
     server.on('error', onError);
     server.on('listening', onListening);
     console.log('Express app started on port ' + port);
-}
-
-function connect () {
-    var options = { server: { socketOptions: { keepAlive: 1 } } };
-    return mongoose.connect(settings.mongodb.url, options).connection;
 }
 
 
