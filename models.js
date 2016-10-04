@@ -4,10 +4,14 @@ var PostSchema = mongoose.Schema({
     title: String,
     body: String,
     author: String // FIXME: link to user
+}, {
+    timestamps: true // adds updatedAt and createdAt to model
 });
 
 var UserSchema = mongoose.Schema({
     name: String
+}, {
+    timestamps: true // adds updatedAt and createdAt to model
 });
 
 
