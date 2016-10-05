@@ -8,6 +8,7 @@ angular
                  <p>{{$ctrl.post.body}}</p>
                  </article>`,
         controller: function PostDetailController() {
+            this.postId = $routeParams.phoneId;
             this.post = {
                 "_id": "57f4ce7aa14f2237af21c1c3",
                 "updatedAt": "2016-10-05T09:57:14.462Z",
