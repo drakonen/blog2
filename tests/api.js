@@ -104,8 +104,8 @@ describe('Api', function() {
                 .end(function(err, res) {
                     if (err) return done(err);
                     mongoose.models.Post.find(function (err, models) {
-                        assert.equal(models[0].body, newPost.body);
                         assert.equal(models[0].title, newPost.title);
+                        assert.equal(models[0].body, newPost.body);
                         assert.equal(models[0].author, newPost.author);
                         done();
                     });
