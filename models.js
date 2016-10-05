@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var PostSchema = mongoose.Schema({
     title: String,
     body: String,
-    author: String // FIXME: link to user
+    author: String
 }, {
     timestamps: true // adds updatedAt and createdAt to model
 });

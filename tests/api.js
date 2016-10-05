@@ -112,19 +112,24 @@ describe('Api', function() {
                 });
         });
 
-        it('should create a blog post 2', function(done) {
-            request(app)
-                .post('/api/1/post')
-                .send({
-                    title: "Title",
-                    body: 'fgikahsfku hfyksdarg jkysdr bgyjrgfuksdbfg sdgfydrfgb sdyjkr bfgysdrfg bsdyurfg bsdruk bg',
-                    author: "me"
-                })
-                .expect(200)
-                .end(function(err, res) {
-                    if (err) return done(err);
-                    done();
-                });
+        it('should create 2nd blog posts', function(done) {
+            createPost(function () {
+                request(app)
+                    .post('/api/1/post')
+                    .send({
+                        title: "Title",
+                        body: 'fgikahsfku hfyksdarg jkysdr bgyjrgfuksdbfg sdgfydrfgb sdyjkr bfgysdrfg bsdyurfg bsdruk bg',
+                        author: "me"
+                    })
+                    .expect(200)
+                    .end(function(err, res) {
+                        if (err) return done(err);
+                        mongoose.models.Post.find(function (err, models) {
+                            assert.equal(models.length, 2);
+                            done();
+                        });
+                    });
+            })
         });
     });
 });
