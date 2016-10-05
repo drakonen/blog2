@@ -6,7 +6,6 @@ angular
                  <h2>{{post.title}}</h2>
                  <span>{{post.author}}</span>
                  <p>{{post.body}}</p>
-                 </h2>
                  </article>`,
             controller: function BlogPostsController() {
                 this.posts = [

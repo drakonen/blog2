@@ -8,7 +8,7 @@ angular
                 .when('/', {
                     template: '<blog-posts></blog-posts>'
                 })
-                .when('/post/:phoneId', {
+                .when('/post/:postId', {
                     template: '<post-detail></post-detail>'
                 })
                 .otherwise('/');
