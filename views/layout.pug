@@ -1,7 +1,10 @@
 doctype html
-html
+html(ng-app="blog2")
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js')
+    script(src='javascripts/blog2.js')
   body
     block content
+    blog-posts
