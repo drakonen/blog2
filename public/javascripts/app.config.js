@@ -1,0 +1,16 @@
+angular
+    .module('blog2')
+    .config(['$locationProvider', '$routeProvider',
+        function config($locationProvider, $routeProvider) {
+            $locationProvider.hashPrefix('!');
+
+            $routeProvider
+                .when('/', {
+                    template: '<blog-posts></blog-posts>'
+                })
+                .when('/post/:phoneId', {
+                    template: '<post-detail></post-detail>'
+                })
+                .otherwise('/');
+        }
+    ]);
