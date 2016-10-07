@@ -22,10 +22,9 @@ router.get('/post', function(req, res, next) {
 
 
 router.get('/post/:postId', function(req, res, next) {
-    console.log("postId", req.params.postId, req.params);
     models.Post.findOne({"_id": req.params.postId }, function (err, post) {
         if (err) {
-            return res.json({error: err});
+            return res.json({ error: err });
         }
 
         res.json(post);
@@ -36,7 +35,7 @@ router.get('/post/:postId', function(req, res, next) {
 router.delete('/posts', function(req, res, next) {
     models.Post.remove({}, function (err) {
         if (err) {
-            return res.json({"error": err});
+            return res.json({ "error": err });
         }
         res.json({ "ok": "ok" });
     });
@@ -53,8 +52,11 @@ router.post('/post', function(req, res, next) {
 
 
     var post = models.Post(data);
-    post.save(function () {
-        res.send("ok");
+    post.save(function (err, post) {
+        if (err) {
+            return res.json({ "error": err });
+        }
+        res.json(post);
     });
 
 });

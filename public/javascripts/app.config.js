@@ -13,6 +13,9 @@ angular
                 .when('/post/:postId', {
                     template: '<post-detail></post-detail>'
                 })
+                .when('/new', {
+                    template: '<post-new></post-new>'
+                })
                 .otherwise('/');
         }
     ]);

@@ -12,7 +12,6 @@ angular
             return $resource('/api/1/post/:postId', {}, {
                 query: {
                     method: 'GET',
-                    // params: {postId: 'posts'},
                     isArray: true
                 }
             });
@@ -24,7 +23,7 @@ angular
 angular.module('postList', ['core.post']);
 
 angular
-    .module('postList')
+    .module('blog2')
     .component('postList', {
             template:
                 `<article ng-repeat="post in $ctrl.posts">
