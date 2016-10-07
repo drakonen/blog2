@@ -1,3 +1,5 @@
+"use strict";
+
 angular
     .module('blog2')
     .config(['$locationProvider', '$routeProvider',
@@ -6,7 +8,7 @@ angular
 
             $routeProvider
                 .when('/', {
-                    template: '<blog-posts></blog-posts>'
+                    template: '<post-list></post-list>'
                 })
                 .when('/post/:postId', {
                     template: '<post-detail></post-detail>'

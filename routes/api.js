@@ -9,14 +9,26 @@ router.get('/echo', function(req, res, next) {
 });
 
 
-/* GET users listing. */
-router.get('/posts', function(req, res, next) {
+router.get('/post', function(req, res, next) {
     models.Post.find(function (err, posts) {
         if (err) {
             return res.json({error: err});
         }
 
         res.json(posts);
+    });
+
+});
+
+
+router.get('/post/:postId', function(req, res, next) {
+    console.log("postId", req.params.postId, req.params);
+    models.Post.findOne({"_id": req.params.postId }, function (err, post) {
+        if (err) {
+            return res.json({error: err});
+        }
+
+        res.json(post);
     });
 
 });
