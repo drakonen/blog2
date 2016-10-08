@@ -44,19 +44,32 @@ router.delete('/posts', function(req, res, next) {
 // new post
 router.post('/post', function(req, res, next) {
 
-    var data = {
+    var newData = {
         title: req.body.title,
         body: req.body.body,
         author: req.body.author
     };
 
 
-    var post = models.Post(data);
-    post.save(function (err, post) {
-        if (err) {
-            return res.json({ "error": err });
+    var query = { '_id': req.body._id };
+    models.Post.findOne(query, function(err, post) {
+        if (post == null) {
+            // new
+            new models.Post(newData).save(function (err, post) {
+                res.json(post);
+            });
+        } else {
+            post.title = newData.title;
+            post.body = newData.body;
+            post.author = newData.author;
+
+            post.save(function (post) {
+                if (err) {
+                    res.json({ "error": err });
+                }
+                res.json(post);
+            })
         }
-        res.json(post);
     });
 
 });

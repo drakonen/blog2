@@ -4,4 +4,4 @@ var blog2 = angular.module('blog2', []);
 
 
 angular.
-    module('blog2', ['ngRoute', 'ngResource', 'postList', 'postNew']);
+    module('blog2', ['ngRoute', 'ngResource', 'postList', 'postEdit']);
