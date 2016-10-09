@@ -96,7 +96,13 @@ describe('Api', function() {
             author: "me"
         };
 
-        it('should create a blog post', function(done) {
+        var secondPost = {
+            title: "Title",
+            body: 'fgikahsfku hfyksdarg jkysdr bgyjrgfuksdbfg sdgfydrfgb sdyjkr bfgysdrfg bsdyurfg bsdruk bg',
+            author: "me"
+        };
+
+        it('Should create a blog post', function(done) {
             request(app)
                 .post('/api/1/post')
                 .send(newPost)
@@ -104,7 +110,7 @@ describe('Api', function() {
                 .end(function(err, res) {
                     if (err) return done(err);
                     mongoose.models.Post.find(function (err, models) {
-                        assert.equal(models.length, 1)
+                        assert.equal(models.length, 1);
                         assert.equal(models[0].title, newPost.title);
                         assert.equal(models[0].body, newPost.body);
                         assert.equal(models[0].author, newPost.author);
@@ -113,18 +119,21 @@ describe('Api', function() {
                 });
         });
 
-        it('should create 2nd blog posts', function(done) {
+        it('Should create 2nd blog posts', function(done) {
             createPost(function () {
                 request(app)
                     .post('/api/1/post')
-                    .send({
-                        title: "Title",
-                        body: 'fgikahsfku hfyksdarg jkysdr bgyjrgfuksdbfg sdgfydrfgb sdyjkr bfgysdrfg bsdyurfg bsdruk bg',
-                        author: "me"
-                    })
+                    .send(secondPost)
                     .expect(200)
                     .end(function(err, res) {
                         if (err) return done(err);
+
+                        // check the body
+                        assert.equal(res.body.title, secondPost.title);
+                        assert.equal(res.body.body, secondPost.body);
+                        assert.equal(res.body.author, secondPost.author);
+
+                        // check the database
                         mongoose.models.Post.find(function (err, models) {
                             assert.equal(models.length, 2);
                             done();
@@ -132,5 +141,40 @@ describe('Api', function() {
                     });
             })
         });
+    });
+
+
+    describe('Post creation /post', function() {
+        it('Should update blog post', function(done) {
+            createPost(function (err, post) {
+
+                var editData = {
+                    _id: post.id,
+                    title: "New Title",
+                    body: 'New Body',
+                    author: "New Author"
+                };
+
+                request(app)
+                    .post('/api/1/post')
+                    .send(editData)
+                    .expect(200)
+                    .end(function(err, res) {
+
+                        if (err) return done(err);
+
+                        mongoose.models.Post.find(function (err, models) {
+                            assert.equal(models.length, 1);
+                            var model = models[0];
+                            assert.equal(model.title, editData.title);
+                            assert.equal(model.body, editData.body);
+                            assert.equal(model.author, editData.author);
+                            done();
+                        });
+                    });
+
+            });
+        });
+
     });
 });
