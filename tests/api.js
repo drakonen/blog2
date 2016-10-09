@@ -43,7 +43,7 @@ describe('Api', function() {
     describe('/echo', function() {
         it('should return return "ok"', function(done) {
             request(app)
-                .get('/api/1/posts')
+                .get('/api/1/echo')
                 .expect(200)
                 .expect(function (res) {
                     return res.text == "ok";
@@ -58,7 +58,7 @@ describe('Api', function() {
     describe('/posts', function() {
         it('should return all posts as JSON even when there are none', function(done) {
             request(app)
-                .get('/api/1/posts')
+                .get('/api/1/post')
                 .expect('Content-Type', /json/)
                 .expect(200)
                 .expect(function (res) {
@@ -75,7 +75,7 @@ describe('Api', function() {
                 if (err) { return console.log(err) }
 
                 request(app)
-                    .get('/api/1/posts')
+                    .get('/api/1/post')
                     .expect('Content-Type', /json/)
                     .expect(200)
                     .expect(function (res) {
@@ -104,6 +104,7 @@ describe('Api', function() {
                 .end(function(err, res) {
                     if (err) return done(err);
                     mongoose.models.Post.find(function (err, models) {
+                        assert.equal(models.length, 1)
                         assert.equal(models[0].title, newPost.title);
                         assert.equal(models[0].body, newPost.body);
                         assert.equal(models[0].author, newPost.author);
