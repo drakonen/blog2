@@ -20,8 +20,6 @@ angular
                  
                  <input class="btn btn-default" type="submit" ng-click="save(post)" value="Save" />
              </form>
-
-             <!--<pre>master = {{post| json}}</pre>-->
              `,
         controller: ["$scope", '$routeParams', "Post", function PostDetailController($scope, $routeParams, Post) {
             console.log("routeparams", $routeParams);
