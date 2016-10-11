@@ -100,7 +100,9 @@ class nextLetterer {
                 tree: d3.tree()
                     .size([this.width - 5, this.height - 5]),
                 renderNodes: function (selection) {
+                    console.log("linear", selection);
                     selection.transition()
+                        .attr("transform", null)
                         .attr("y", function(d) { return d.x; })
                         .attr("x", function(d) { return d.y; })
                 },
@@ -119,7 +121,10 @@ class nextLetterer {
                 tree: d3.tree()
                     .size([360, 170]), // rotation and radius
                 renderNodes: function (selection) {
+                    console.log("radial");
                     selection.transition()
+                        .attr("x", "0")
+                        .attr("y", "0")
                         .attr("transform", function (d) {
                             return `rotate(${d.x}), translate(${d.y}, 0) rotate(-${d.x})`
                         })
@@ -177,6 +182,7 @@ class nextLetterer {
         nodes.enter()
             .append("text")
                 .text(function (d) { return d.data.name; })
+            .merge(nodes)
                 .attr("font-size", function (d) {
                     return fontSizeScale(d.data.count);
                 })
