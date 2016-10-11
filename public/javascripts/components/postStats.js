@@ -204,7 +204,7 @@ angular.module('blog2')
                          <label>Radial: <input type="radio" name="style" value="radial" checked></label>
                      </div> 
                      <div class="form-group">
-                         <label for="linear">Linear: <input type="radio" name="style" value="linear"></label>
+                         <label>Linear: <input type="radio" name="style" value="linear"></label>
                      </div>
                  </form>
 `,
