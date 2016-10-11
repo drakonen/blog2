@@ -3,7 +3,6 @@ function nextLetterCounter(text) {
     let matrix = {};
     let last = "";
 
-    console.log("text", text);
     for (let current of text) {
         let lastChar = matrix[last];
         if (!lastChar) {
@@ -65,11 +64,16 @@ class nextLetterer {
         this.svg = d3.select(elem)
             .attr("width", this.width)
             .attr("height", this.height);
-        let transform = `translate(${this.width / 2}, ${this.height / 2})`;
-        console.log(transform);
 
-        this.canvas = this.svg.append("g")
-            .attr("transform", transform)
+
+        this.canvas = this.svg.append("g");
+        this.style = "radial";
+
+        // tja
+        elem.parentNode.querySelector("form").onchange = function (event) {
+            this.style = event.target.value;
+            this.render();
+        }.bind(this);
     }
 
     getMinMaxFromTree(treeData) {
@@ -85,16 +89,24 @@ class nextLetterer {
 
     }
 
+
     render() {
+        var self = this;
         let styles = {
             linear: {
                 project: function (x, y) {
-                    return [x, y];
+                    return [y, x]; // switched so its left to right instead of top to bottom
                 },
                 tree: d3.tree()
-                    .size([this.width, this.height]),
-                render: function (selection) {
-
+                    .size([this.width - 5, this.height - 5]),
+                renderNodes: function (selection) {
+                    selection.transition()
+                        .attr("y", function(d) { return d.x; })
+                        .attr("x", function(d) { return d.y; })
+                },
+                renderCanvas: function(canvas) {
+                    canvas.transition()
+                        .attr("transform", "translate(5,5)")
                 }
 
             },
@@ -106,19 +118,27 @@ class nextLetterer {
                 },
                 tree: d3.tree()
                     .size([360, 170]), // rotation and radius
-                render: function (selection) {
-                    console.log("selection", selection.size());
-                    selection.attr("transform", function (d) {
-                        console.log("d", d)
-                        return `rotate(${d.x}), translate(${d.y}, 0) rotate(-${d.x})`
-                    })
+                renderNodes: function (selection) {
+                    selection.transition()
+                        .attr("transform", function (d) {
+                            return `rotate(${d.x}), translate(${d.y}, 0) rotate(-${d.x})`
+                        })
+                },
+                renderCanvas: function(canvas) {
+                    let transform = `translate(${self.width / 2}, ${self.height / 2})`;
+
+                    canvas.transition()
+                        .attr("transform", transform)
+
                 }
             }
 
-        }
+        };
 
-        // let style = "linear";
-        let style = "radial";
+        let style = this.style;
+        // let style = "radial";
+
+        styles[style].renderCanvas(this.canvas);
 
         let project = styles[style].project;
         this.tree = styles[style].tree;
@@ -141,15 +161,16 @@ class nextLetterer {
                 .append("path")
                 .attr("class", "link")
             .merge(links)
-                .attr("d", function(d) {
-                    return "M" + project(d.source.x, d.source.y)
-                        + "C" + project(d.source.x, (d.source.y + d.target.y) / 2)
-                        + " " + project(d.target.x, (d.source.y + d.target.y) / 2)
-                        + " " + project(d.target.x, d.target.y);
-                })
-                .attr("stroke", "#ccc")
-                .attr("stroke-width", "1")
-                .attr("fill", "none")
+                .transition()
+                    .attr("d", function(d) {
+                        return "M" + project(d.source.x, d.source.y)
+                            + "C" + project(d.source.x, (d.source.y + d.target.y) / 2)
+                            + " " + project(d.target.x, (d.source.y + d.target.y) / 2)
+                            + " " + project(d.target.x, d.target.y);
+                    })
+                    .attr("stroke", "#ccc")
+                    .attr("stroke-width", "1")
+                    .attr("fill", "none")
 
         let nodes = this.canvas.selectAll("text").data(treeData.descendants());
 
@@ -159,7 +180,7 @@ class nextLetterer {
                 .attr("font-size", function (d) {
                     return fontSizeScale(d.data.count);
                 })
-                .call(styles[style].render)
+                .call(styles[style].renderNodes)
                 .attr("text-anchor", "middle")
 
 
@@ -171,7 +192,16 @@ angular.module('blog2')
     .directive('postStats', function() {
         return {
             template:
-                `<svg class="postStats"></svg>`,
+                `<svg class="postStats"></svg>
+                 <form>
+                     <div class="form-group">
+                         <label>Radial: <input type="radio" name="style" value="radial" checked></label>
+                     </div> 
+                     <div class="form-group">
+                         <label for="linear">Linear: <input type="radio" name="style" value="linear"></label>
+                     </div>
+                 </form>
+`,
             scope: {
                 post: '=post'
             },
