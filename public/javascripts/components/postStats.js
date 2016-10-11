@@ -98,7 +98,7 @@ class nextLetterer {
                     return [y, x]; // switched so its left to right instead of top to bottom
                 },
                 tree: d3.tree()
-                    .size([this.width - 5, this.height - 5]),
+                    .size([this.width - 20, this.height - 20]),
                 renderNodes: function (selection) {
                     console.log("linear", selection);
                     selection.transition()
@@ -108,7 +108,7 @@ class nextLetterer {
                 },
                 renderCanvas: function(canvas) {
                     canvas.transition()
-                        .attr("transform", "translate(5,5)")
+                        .attr("transform", "translate(10,10)")
                 }
 
             },

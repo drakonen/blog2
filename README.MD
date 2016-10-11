@@ -1,6 +1,6 @@
-Blog
+Blog2
 ----
-An example blog using Node.js, Express, MongoDB, Angular
+An test blog using Node.js, Express, MongoDB, Angular, d3.
 
 Install
 -------
@@ -17,3 +17,6 @@ Test: `npm test`
 About
 -----
 File layout generated with `express`
+
+Allows to view, create and edit blog posts.
+on the blog details view there is a visualisation of which character goes next.
