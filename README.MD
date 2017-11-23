@@ -1,6 +1,7 @@
 Blog2
 ----
 An test blog using Node.js, Express, MongoDB, Angular, d3.
+This is my first Angular app. I had some minor previous Node.js, Express and Mongo experience.
 
 Install
 -------
